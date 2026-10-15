@@ -1,0 +1,368 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neguebas Adventure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>🌋 Neguebas Adventure</h1>
+  </header>
+  <button id="btn-som" class="botao-som" aria-label="Ligar ou desligar o som">🔊</button>
+
+  <main>
+    <!-- Jogadores: cadastro e entrada -->
+    <section id="tela-login" class="tela">
+      <div class="cartao cartao-login">
+        <div class="emoji-grande">🏴‍☠️</div>
+        <h2>Neguebas Adventure</h2>
+        <p class="subtitulo">Quem vai jogar?</p>
+        <p id="banco-estado" class="banco-estado"></p>
+
+        <div id="lista-jogadores" class="lista-jogadores"></div>
+
+        <div id="login-pin-caixa" class="login-bloco oculto">
+          <p>🔒 Senha de <strong id="login-pin-nome"></strong></p>
+          <input id="input-pin-entrar" class="campo-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="4 números">
+          <button id="btn-confirmar-pin" class="botao botao-principal">Entrar</button>
+        </div>
+
+        <div class="login-bloco">
+          <h3>➕ Novo jogador</h3>
+          <input id="input-nick" class="campo-nome" type="text" maxlength="10" autocomplete="off" placeholder="Seu apelido (3 a 10)">
+          <input id="input-pin" class="campo-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Senha de 4 números (opcional)">
+          <small class="contador">Use só um apelido, nunca seu nome completo.</small>
+          <button id="btn-criar" class="botao botao-principal botao-grande">Cadastrar e jogar ⚓</button>
+        </div>
+
+        <div id="login-nuvem" class="login-bloco oculto">
+          <h3>☁️ Já tenho cadastro (outro aparelho)</h3>
+          <input id="input-nick-nuvem" class="campo-nome" type="text" maxlength="10" autocomplete="off" placeholder="Apelido cadastrado">
+          <input id="input-pin-nuvem" class="campo-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Senha (se tiver)">
+          <button id="btn-entrar-nuvem" class="botao botao-secundario">Entrar com meu cadastro</button>
+        </div>
+
+        <p id="login-erro" class="erro-texto" role="alert"></p>
+        <button id="btn-cancelar-login" class="botao botao-pequeno oculto">⬅ Voltar</button>
+      </div>
+    </section>
+
+    <!-- Menu (porto) -->
+    <section id="tela-menu" class="tela ativa">
+      <div class="carteira">
+        <div class="chip">🪙 <span id="menu-moedas">0</span></div>
+        <div class="chip">🎖️ Nível <span id="menu-nivel">1</span></div>
+      </div>
+
+      <div class="hero" aria-hidden="true">
+        <div class="hero-sol"></div>
+        <div class="hero-nuvem n1">☁️</div>
+        <div class="hero-nuvem n2">☁️</div>
+        <div class="hero-ave a1">🕊️</div>
+        <div class="hero-ave a2">🕊️</div>
+        <div class="onda onda1"></div>
+        <div class="hero-barco"><div id="menu-barco"></div></div>
+        <div class="onda onda2"></div>
+        <div class="onda onda3"></div>
+      </div>
+
+      <div class="cartao cartao-menu">
+        <h2>Ahoy, <span id="menu-nome"></span>!
+          <button id="btn-trocar" class="link-botao" aria-label="Trocar de jogador" title="Trocar de jogador">🔄</button>
+        </h2>
+        <p id="menu-barco-nome" class="subtitulo">Veleiro</p>
+        <p id="menu-missao" class="missao"></p>
+
+        <button id="btn-continuar" class="botao botao-principal botao-continuar">▶ Continuar aventura</button>
+
+        <div class="xp">
+          <div class="xp-barra"><div id="menu-xp-barra" class="xp-enchimento"></div></div>
+          <small id="menu-xp-texto"></small>
+        </div>
+
+        <p class="bonus-moedas">🪙 Bônus de moedas: <strong id="menu-bonus-moedas">+0%</strong></p>
+        <button id="btn-bonus" class="botao botao-bonus">🎁 Bônus diário</button>
+
+        <div class="menu-botoes">
+          <button id="btn-cobrinha" class="botao botao-principal botao-grande">🐍 Cobrinha dos Heróis</button>
+          <button class="botao botao-secundario botao-grande" data-ir="mapa">🗺️ Mapa</button>
+          <button id="btn-livre" class="botao botao-bonus botao-grande oculto" data-ir="mapa">🎮 Modo livre</button>
+          <button class="botao botao-secundario botao-grande" data-ir="loja">🛒 Loja</button>
+          <button class="botao botao-secundario botao-grande" data-ir="estaleiro">🎨 Estaleiro</button>
+          <button class="botao botao-secundario botao-grande" data-ir="personagens">🎭 Personagens</button>
+          <button class="botao botao-secundario botao-grande" data-ir="avatar">🧑 Avatar</button>
+          <button class="botao botao-secundario botao-grande" data-ir="status">📊 Status</button>
+          <button class="botao botao-secundario botao-grande" data-ir="ranking">🏆 Ranking</button>
+        </div>
+
+        <div class="codigo">
+          <input id="input-codigo" class="campo-codigo" type="text" maxlength="20" autocomplete="off" placeholder="🎟️ Código promocional">
+          <button id="btn-codigo" class="botao botao-pequeno">Resgatar</button>
+        </div>
+        <p id="codigo-msg" class="codigo-msg" role="status"></p>
+        <p id="menu-banco" class="banco-estado"></p>
+        <button id="btn-resetar" class="link-botao">Apagar este jogador</button>
+      </div>
+    </section>
+
+    <!-- Mapa da campanha -->
+    <section id="tela-mapa" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>🗺️ A aventura</h2>
+      </div>
+      <div class="mapa-topo">
+        <p id="mapa-vip" class="mapa-vip oculto">👑 Modo livre VIP: todas as modalidades e chefes estão abertos!</p>
+        <p id="mapa-prog"></p>
+        <div class="xp-barra"><div id="mapa-barra" class="mapa-barra"></div></div>
+      </div>
+      <div id="lista-fases" class="lista-fases"></div>
+    </section>
+
+    <!-- História -->
+    <section id="tela-historia" class="tela">
+      <div class="cartao cartao-historia">
+        <div id="hist-arte" class="hist-arte">🌅</div>
+        <p id="hist-quem" class="hist-quem"></p>
+        <p id="hist-fala" class="hist-fala"></p>
+        <div class="menu-botoes">
+          <button id="btn-hist-pular" class="botao botao-pequeno">Pular</button>
+          <button id="btn-hist-prox" class="botao botao-principal">Continuar ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loja -->
+    <section id="tela-loja" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>🛒 Lojinha</h2>
+        <div class="chip">🪙 <span id="loja-moedas">0</span></div>
+      </div>
+      <button class="botao botao-bonus botao-loja-pers" data-ir="personagens">🎭 Loja de personagens: influencers, craques e animes</button>
+      <div class="cartao cartao-loja">
+        <h3 class="titulo-secao">⛵ Barcos</h3>
+        <div id="loja-barcos" class="lista-loja"></div>
+        <h3 class="titulo-secao">🛠️ Melhorias</h3>
+        <div id="loja-melhorias" class="lista-loja"></div>
+        <h3 class="titulo-secao">🛡️ Suprimentos</h3>
+        <div id="loja-suprimentos" class="lista-loja"></div>
+        <h3 class="titulo-secao">🎒 Equipamentos <small id="equip-contagem">0/2</small></h3>
+        <div id="loja-equip" class="lista-loja"></div>
+      </div>
+    </section>
+
+    <!-- Estaleiro -->
+    <section id="tela-estaleiro" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>🎨 Estaleiro</h2>
+        <div class="chip">🪙 <span id="estaleiro-moedas">0</span></div>
+      </div>
+      <div class="cartao cartao-loja">
+        <div id="estaleiro-previa" class="previa"></div>
+        <p class="subtitulo centro">Toque em um item para comprar e usar. Toque de novo para tirar.</p>
+        <div id="estaleiro-lista"></div>
+      </div>
+    </section>
+
+    <!-- Avatar -->
+    <section id="tela-avatar" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>🧑 Meu avatar</h2>
+        <span></span>
+      </div>
+      <div class="cartao cartao-loja">
+        <div id="avatar-usando" class="aviso-nivel oculto">🎭 Você está jogando como <strong id="avatar-usando-nome"></strong>.
+          <button id="btn-voltar-avatar" class="botao botao-pequeno">Voltar ao meu avatar</button></div>
+        <div id="avatar-previa" class="avatar-previa"></div>
+        <div id="avatar-campos"></div>
+        <div class="menu-botoes">
+          <button id="btn-avatar-sorte" class="botao botao-secundario">🎲 Aleatório</button>
+          <button class="botao botao-principal" data-ir="menu">✅ Pronto</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personagens (coleção e loja) -->
+    <section id="tela-personagens" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>🎭 Personagens</h2>
+        <div class="chip">🪙 <span id="pers-moedas">0</span></div>
+      </div>
+      <div class="cartao cartao-loja">
+        <h3 class="titulo-secao">🐍 Time da cobrinha <small id="pers-time-contagem">0/6</small></h3>
+        <div id="pers-time" class="pers-time"></div>
+        <div id="pers-abas" class="abas"></div>
+        <div id="pers-grade" class="pers-grade"></div>
+        <p class="subtitulo centro">Todos os personagens são originais, inspirados em estilos de streamers, craques e animes.</p>
+      </div>
+    </section>
+
+    <!-- Ranking -->
+    <section id="tela-ranking" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>🏆 Ranking</h2>
+        <span></span>
+      </div>
+      <div class="cartao cartao-loja">
+        <h3 id="ranking-titulo" class="titulo-secao centro"></h3>
+        <div id="ranking-lista" class="ranking-lista"></div>
+      </div>
+    </section>
+
+    <!-- Status -->
+    <section id="tela-status" class="tela">
+      <div class="cabecalho-tela">
+        <button class="botao botao-pequeno" data-ir="menu">⬅ Menu</button>
+        <h2>📊 Status</h2>
+      </div>
+      <div class="cartao cartao-loja">
+        <h3 id="status-titulo" class="titulo-secao centro"></h3>
+        <div id="status-destaque" class="destaque"></div>
+        <div id="status-disciplinas"></div>
+        <div id="status-geral" class="premios"></div>
+      </div>
+    </section>
+
+    <!-- Fase (todas as modalidades usam o mesmo palco) -->
+    <section id="tela-fase" class="tela">
+      <div class="hud">
+        <button id="btn-sair" class="botao-sair" aria-label="Sair da fase">🏠</button>
+        <div class="hud-info">
+          <p id="titulo-fase"></p>
+          <p id="hud-obj"></p>
+        </div>
+        <div class="chip hud-chip">🪙 <span id="hud-moedas">0</span></div>
+      </div>
+      <div class="hud-vida-linha">
+        <div class="barra-vida hud-barra">
+          <div id="hud-vida" class="enchimento alta"></div>
+          <span id="hud-vida-texto" class="vida-texto"></span>
+        </div>
+        <span id="hud-escudo" class="hud-ico oculto" title="Escudo ativo">🛡️</span>
+        <span id="hud-extra" class="hud-ico" title="Vidas extras"></span>
+        <span id="hud-combo" class="combo">🔥 x0</span>
+      </div>
+
+      <div id="palco" class="palco">
+        <canvas id="canvas" width="360" height="520" aria-label="Área de jogo"></canvas>
+
+        <!-- Pergunta opcional -->
+        <div id="modal-q" class="modal oculto">
+          <div class="modal-cartao">
+            <div class="tempo-linha">
+              <span id="q-combo" class="combo">🔥 x0</span>
+              <div class="tempo"><div id="q-tempo-barra" class="tempo-barra"></div></div>
+              <span id="q-tempo-texto" class="tempo-texto">⏱️ 15</span>
+            </div>
+            <div class="etiquetas">
+              <span id="q-tipo" class="etiqueta">Quiz</span>
+              <span id="q-nivel" class="etiqueta etiqueta-nivel">⭐ Fácil</span>
+            </div>
+            <h2 id="q-texto"></h2>
+            <div class="menu-botoes">
+              <button id="btn-dica" class="botao botao-pequeno">🦜 Dica do Louro José (1x)</button>
+              <button id="btn-pular" class="botao botao-pequeno">⏭ Pular</button>
+            </div>
+            <div id="q-alternativas" class="alternativas"></div>
+            <div id="q-feedback" class="feedback oculto" aria-live="polite">
+              <strong id="q-fb-titulo"></strong>
+              <p id="q-fb-texto"></p>
+            </div>
+            <button id="btn-q-ok" class="botao botao-principal oculto">Continuar ▶</button>
+          </div>
+        </div>
+
+        <!-- Cartas do chefão -->
+        <div id="modal-cartas" class="modal oculto">
+          <div class="modal-cartao">
+            <p class="cartas-titulo">🃏 Escolha uma carta!</p>
+            <div class="cartas-lista">
+              <button class="carta carta-ataque" data-carta="ataque">
+                <span class="carta-icone">🔥</span>
+                <strong>Atacar</strong>
+                <small id="carta-ataque-texto">Lança de fogo</small>
+              </button>
+              <button class="carta carta-escudo" data-carta="escudo">
+                <span class="carta-icone">🛡️</span>
+                <strong>Defender</strong>
+                <small>Bloqueia o próximo dano</small>
+              </button>
+              <button class="carta carta-reparo" data-carta="reparo">
+                <span class="carta-icone">🔧</span>
+                <strong>Reparar</strong>
+                <small id="carta-reparo-texto">Recupera vida</small>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bifurcação da travessia -->
+        <div id="modal-rota" class="modal oculto">
+          <div class="modal-cartao">
+            <h2>🧭 Bifurcação!</h2>
+            <p>O mapa mostra dois caminhos. Qual você escolhe?</p>
+            <div class="alternativas">
+              <button class="alternativa" data-rota="recife">🪸 Recife raso<br><small>Mais moedas, mais obstáculos</small></button>
+              <button class="alternativa" data-rota="aberto">🌊 Mar aberto<br><small>Mais seguro, menos moedas</small></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="controles" class="controles">
+        <button class="ctl ctl-esq" data-d="esq" aria-label="Esquerda">◀</button>
+        <button id="ctl-cima" class="ctl ctl-cima" data-d="cima" aria-label="Cima">▲</button>
+        <button id="ctl-baixo" class="ctl ctl-baixo" data-d="baixo" aria-label="Baixo">▼</button>
+        <button class="ctl ctl-dir" data-d="dir" aria-label="Direita">▶</button>
+        <button class="ctl ctl-fogo" data-d="fogo" aria-label="Atirar">💥</button>
+        <button class="ctl ctl-dash" data-d="dash" aria-label="Dash (esquiva)">💨 Dash</button>
+        <button class="ctl ctl-super" data-d="super" aria-label="Super">⭐ Super</button>
+      </div>
+    </section>
+
+    <!-- Resultado -->
+    <section id="tela-resultado" class="tela">
+      <div class="cartao">
+        <div id="resultado-emoji" class="emoji-grande"></div>
+        <h2 id="resultado-titulo"></h2>
+        <div id="resultado-estrelas" class="estrelas"></div>
+        <p>Perguntas certas: <strong id="resultado-acertos">0</strong></p>
+        <p>Maior combo: <strong id="resultado-combo">0</strong> 🔥</p>
+        <p><span id="resultado-extra-rotulo">Inimigos derrotados</span>: <strong id="resultado-inimigos">0</strong></p>
+        <p>Vida restante: <strong id="resultado-vida">0</strong>%</p>
+        <div class="premios">
+          <span class="chip">🪙 +<span id="resultado-moedas">0</span></span>
+          <span class="chip">✨ +<span id="resultado-xp">0</span> XP</span>
+        </div>
+        <p id="resultado-nivel" class="aviso-nivel oculto"></p>
+        <p id="resultado-msg"></p>
+        <div class="menu-botoes">
+          <button id="btn-prox-fase" class="botao botao-principal">Próxima fase ▶</button>
+          <button id="btn-repetir" class="botao botao-secundario">Jogar de novo</button>
+          <button class="botao botao-pequeno" data-ir="mapa">🗺️ Mapa</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Neguebas Adventure • 6º ano • Aprenda jogando</p>
+  </footer>
+
+  <div id="flash" class="flash"></div>
+  <div id="confete" class="confete"></div>
+  <div id="aviso" class="aviso oculto" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
